@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaDetect | Language Detection Tool</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="page">
+
+        <header class="topbar">
+            <a href="/" class="brand">
+                <span class="brand-icon">文</span>
+                LinguaDetect
+            </a>
+
+            <span class="status">
+                <span></span> AI Language Identifier
+            </span>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="eyebrow">LANGUAGE DETECTION TOOL</div>
+
+                <h1>Every language has<br>a <span>story to tell.</span></h1>
+
+                <p>
+                    Enter your text and discover which language it belongs to.
+                    Simple, fast, and easy to use.
+                </p>
+            </section>
+
+            <section class="detector">
+                <form method="POST" action="/">
+                    <div class="field-heading">
+                        <label for="text">Enter your text</label>
+                        <span id="char-count">0 characters</span>
+                    </div>
+
+                    <textarea
+                        id="text"
+                        name="text"
+                        maxlength="10000"
+                        placeholder="Type or paste a sentence here...
+
+For example: Hello, how are you today?"
+                        required>{{ text }}</textarea>
+
+                    <div class="form-footer">
+                        <span class="hint">Up to 10,000 characters</span>
+
+                        <button type="button" id="clear-btn" class="clear-btn">
+                            Clear
+                        </button>
+                    </div>
+
+                    <button type="submit" class="detect-btn">
+                        <span>Detect Language</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                {% if error %}
+                <div class="message error" role="alert">
+                    <strong>Unable to detect</strong>
+                    <p>{{ error }}</p>
+                </div>
+                {% endif %}
+
+                {% if result %}
+                <section class="result" aria-live="polite">
+                    <div class="result-top">
+                        <span class="result-label">DETECTION RESULT</span>
+                        <span class="result-check">✓ Identified</span>
+                    </div>
+
+                    <div class="result-main">
+                        <div class="language-symbol">文</div>
+
+                        <div>
+                            <p class="small-label">Detected language</p>
+                            <h2>{{ result.language }}</h2>
+
+                            <p class="language-code">
+                                Language code: {{ result.code }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="probability">
+                        <div class="probability-label">
+                            <span>Model probability estimate</span>
+                            <strong>{{ result.probability }}%</strong>
+                        </div>
+
+                        <div class="progress">
+                               <progress class="progress-fill"
+                                       value="{{ result.probability }}"
+                                       max="100">
+                                  {{ result.probability }}%
+                               </progress>
+                        </div>
+
+                        <p>
+                            This is a model estimate, not a guaranteed
+                            measure of correctness.
+                        </p>
+                    </div>
+                </section>
+                {% endif %}
+            </section>
+
+            <section class="examples">
+                <h3>Try an example</h3>
+                <p>Click a sentence to place it in the input box.</p>
+
+                <div class="example-list">
+                    <button type="button" class="example"
+                        data-text="Hello, how are you? I am learning Python.">
+                        <span>🇬🇧</span>
+                        <span>
+                            <strong>English</strong>
+                            <small>Hello, how are you?</small>
+                        </span>
+                    </button>
+
+                    <button type="button" class="example"
+                        data-text="আমি বাংলা ভাষায় কথা বলি।">
+                        <span>🇮🇳</span>
+                        <span>
+                            <strong>Bengali</strong>
+                            <small>আমি বাংলা ভাষায় কথা বলি।</small>
+                        </span>
+                    </button>
+
+                    <button type="button" class="example"
+                        data-text="मैं एक छात्र हूँ और मुझे प्रोग्रामिंग पसंद है।">
+                        <span>🇮🇳</span>
+                        <span>
+                            <strong>Hindi</strong>
+                            <small>मैं एक छात्र हूँ।</small>
+                        </span>
+                    </button>
+
+                    <button type="button" class="example"
+                        data-text="Bonjour, comment allez-vous aujourd'hui ?">
+                        <span>🇫🇷</span>
+                        <span>
+                            <strong>French</strong>
+                            <small>Bonjour, comment allez-vous ?</small>
+                        </span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="how-it-works">
+                <h3>How it works</h3>
+
+                <div class="steps">
+                    <div>
+                        <span>01</span>
+                        <strong>Enter text</strong>
+                        <p>Type a sentence or paragraph.</p>
+                    </div>
+
+                    <div>
+                        <span>02</span>
+                        <strong>Analyze</strong>
+                        <p>The Python library analyzes language patterns.</p>
+                    </div>
+
+                    <div>
+                        <span>03</span>
+                        <strong>Get result</strong>
+                        <p>View the predicted language and code.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>LinguaDetect · A Python and Flask mini project</p>
+        </footer>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
